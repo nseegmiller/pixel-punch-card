@@ -4,6 +4,7 @@ import { useHabits as useHabitsHook, HabitWithCard } from '@/hooks/useHabits';
 import { useHistory as useHistoryHook, PunchResult } from '@/hooks/useHistory';
 import { History } from '@/types';
 import { supabase } from '@/lib/supabase';
+import { DEFAULT_HISTORY_FETCH_LIMIT } from '@/utils/constants';
 
 interface HabitsContextType {
   habits: HabitWithCard[];
@@ -36,11 +37,12 @@ export const HabitsProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const habitsHook = useHabitsHook(user?.id);
-  const historyHook = useHistoryHook(user?.id);
+  const userId = user?.id;
+  const habitsHook = useHabitsHook(userId);
+  const historyHook = useHistoryHook(userId);
 
   const refresh = useCallback(async () => {
-    if (!user) {
+    if (!userId) {
       setHabits([]);
       setRecentHistory([]);
       setLoading(false);
@@ -52,7 +54,7 @@ export const HabitsProvider = ({ children }: { children: ReactNode }) => {
       setError(null);
       const [fetchedHabits, fetchedHistory] = await Promise.all([
         habitsHook.fetchHabits(),
-        historyHook.fetchRecentHistory(100),
+        historyHook.fetchRecentHistory(DEFAULT_HISTORY_FETCH_LIMIT),
       ]);
       setHabits(fetchedHabits);
       setRecentHistory(fetchedHistory);
@@ -62,17 +64,14 @@ export const HabitsProvider = ({ children }: { children: ReactNode }) => {
     } finally {
       setLoading(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.id]);
+  }, [userId, habitsHook, historyHook]);
 
   useEffect(() => {
     refresh();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.id]);
+  }, [refresh]);
 
-  // Subscribe to real-time changes on history table
   useEffect(() => {
-    if (!user) return;
+    if (!userId) return;
 
     const channel = supabase
       .channel('history_changes')
@@ -82,7 +81,7 @@ export const HabitsProvider = ({ children }: { children: ReactNode }) => {
           event: '*',
           schema: 'public',
           table: 'history',
-          filter: `user_id=eq.${user.id}`,
+          filter: `user_id=eq.${userId}`,
         },
         () => {
           refresh();
@@ -93,71 +92,85 @@ export const HabitsProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       supabase.removeChannel(channel);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.id]);
+  }, [userId, refresh]);
 
-  const createHabit = async (name: string) => {
-    try {
-      setError(null);
-      await habitsHook.createHabit(name);
-      await refresh();
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to create habit';
-      setError(errorMessage);
-      throw err;
-    }
-  };
+  const createHabit = useCallback(
+    async (name: string) => {
+      try {
+        setError(null);
+        await habitsHook.createHabit(name);
+        await refresh();
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to create habit';
+        setError(errorMessage);
+        throw err;
+      }
+    },
+    [habitsHook, refresh]
+  );
 
-  const updateHabit = async (habitId: string, name: string, oldName: string) => {
-    try {
-      setError(null);
-      await habitsHook.updateHabit(habitId, name, oldName);
-      await refresh();
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to update habit';
-      setError(errorMessage);
-      throw err;
-    }
-  };
+  const updateHabit = useCallback(
+    async (habitId: string, name: string, oldName: string) => {
+      try {
+        setError(null);
+        await habitsHook.updateHabit(habitId, name, oldName);
+        await refresh();
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to update habit';
+        setError(errorMessage);
+        throw err;
+      }
+    },
+    [habitsHook, refresh]
+  );
 
-  const deleteHabit = async (habitId: string) => {
-    try {
-      setError(null);
-      await habitsHook.deleteHabit(habitId);
-      await refresh();
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to delete habit';
-      setError(errorMessage);
-      throw err;
-    }
-  };
+  const deleteHabit = useCallback(
+    async (habitId: string) => {
+      try {
+        setError(null);
+        await habitsHook.deleteHabit(habitId);
+        await refresh();
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to delete habit';
+        setError(errorMessage);
+        throw err;
+      }
+    },
+    [habitsHook, refresh]
+  );
 
-  const punch = async (cardId: string): Promise<PunchResult> => {
-    try {
-      setError(null);
-      const result = await historyHook.punch(cardId);
-      await refresh();
-      return result;
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to punch card';
-      setError(errorMessage);
-      throw err;
-    }
-  };
+  const punch = useCallback(
+    async (cardId: string): Promise<PunchResult> => {
+      try {
+        setError(null);
+        const result = await historyHook.punch(cardId);
+        await refresh();
+        return result;
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to punch card';
+        setError(errorMessage);
+        throw err;
+      }
+    },
+    [historyHook, refresh]
+  );
 
-  const unpunch = async (historyId: string) => {
-    try {
-      setError(null);
-      await historyHook.unpunch(historyId);
-      await refresh();
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to unpunch';
-      setError(errorMessage);
-      throw err;
-    }
-  };
+  const unpunch = useCallback(
+    async (historyId: string) => {
+      try {
+        setError(null);
+        await historyHook.unpunch(historyId);
+        await refresh();
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to unpunch';
+        setError(errorMessage);
+        throw err;
+      }
+    },
+    [historyHook, refresh]
+  );
 
-  const undo = async () => {
+  const undo = useCallback(async () => {
     try {
       setError(null);
       await historyHook.undo();
@@ -167,7 +180,7 @@ export const HabitsProvider = ({ children }: { children: ReactNode }) => {
       setError(errorMessage);
       throw err;
     }
-  };
+  }, [historyHook, refresh]);
 
   return (
     <HabitsContext.Provider

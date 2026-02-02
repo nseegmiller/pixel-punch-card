@@ -1,20 +1,16 @@
-import { useState } from 'react';
+import { useCallback } from 'react';
 import { useHabitsContext } from '@/context/HabitsContext';
+import { useAsyncAction } from '@/hooks/useAsyncAction';
+import { Icon } from './ui';
 
 const UndoButton = () => {
   const { undo, recentHistory } = useHabitsContext();
-  const [loading, setLoading] = useState(false);
 
-  const handleUndo = async () => {
-    try {
-      setLoading(true);
-      await undo();
-    } catch (err) {
-      console.error('Error undoing:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const handleUndo = useCallback(async () => {
+    await undo();
+  }, [undo]);
+
+  const { execute, loading } = useAsyncAction(handleUndo);
 
   const canUndo = recentHistory.length > 0;
 
@@ -38,24 +34,12 @@ const UndoButton = () => {
 
   return (
     <button
-      onClick={handleUndo}
+      onClick={execute}
       disabled={loading}
       className="fixed bottom-6 right-6 flex items-center gap-2 px-4 py-3 bg-gray-800 text-white rounded-full shadow-lg hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-105"
       title={getUndoText()}
     >
-      <svg
-        className="w-5 h-5"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"
-        />
-      </svg>
+      <Icon name="undo" />
       <span className="font-medium">{loading ? 'Undoing...' : 'Undo'}</span>
     </button>
   );

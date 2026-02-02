@@ -1,3 +1,4 @@
+import { useCallback, useMemo } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Habit, Card, History } from '@/types';
 import { validateHabitName } from '@/utils/validation';
@@ -9,10 +10,9 @@ export interface HabitWithCard extends Habit {
 }
 
 export const useHabits = (userId: string | undefined) => {
-  const fetchHabits = async (): Promise<HabitWithCard[]> => {
+  const fetchHabits = useCallback(async (): Promise<HabitWithCard[]> => {
     if (!userId) return [];
 
-    // Fetch habits
     const { data: habits, error: habitsError } = await supabase
       .from('habits')
       .select('*')
@@ -22,8 +22,7 @@ export const useHabits = (userId: string | undefined) => {
     if (habitsError) throw habitsError;
     if (!habits) return [];
 
-    // Fetch all cards for these habits
-    const habitIds = habits.map(h => h.id);
+    const habitIds = habits.map((h) => h.id);
     const { data: cards, error: cardsError } = await supabase
       .from('cards')
       .select('*')
@@ -32,8 +31,7 @@ export const useHabits = (userId: string | undefined) => {
 
     if (cardsError) throw cardsError;
 
-    // Fetch all punches for these cards
-    const cardIds = cards?.map(c => c.id) || [];
+    const cardIds = cards?.map((c) => c.id) || [];
     const { data: punches, error: punchesError } = await supabase
       .from('history')
       .select('*')
@@ -43,12 +41,11 @@ export const useHabits = (userId: string | undefined) => {
 
     if (punchesError) throw punchesError;
 
-    // Combine data
-    return habits.map(habit => {
-      const habitCards = cards?.filter(c => c.habit_id === habit.id) || [];
-      const currentCard = habitCards.find(c => c.is_current) || null;
-      const completedCardsCount = habitCards.filter(c => !c.is_current && c.completed_at).length;
-      const habitPunches = punches?.filter(p => p.card_id === currentCard?.id) || [];
+    return habits.map((habit) => {
+      const habitCards = cards?.filter((c) => c.habit_id === habit.id) || [];
+      const currentCard = habitCards.find((c) => c.is_current) || null;
+      const completedCardsCount = habitCards.filter((c) => !c.is_current && c.completed_at).length;
+      const habitPunches = punches?.filter((p) => p.card_id === currentCard?.id) || [];
 
       return {
         ...habit,
@@ -57,32 +54,29 @@ export const useHabits = (userId: string | undefined) => {
         punches: habitPunches,
       };
     });
-  };
+  }, [userId]);
 
-  const createHabit = async (name: string): Promise<Habit> => {
-    if (!userId) throw new Error('User not authenticated');
+  const createHabit = useCallback(
+    async (name: string): Promise<Habit> => {
+      if (!userId) throw new Error('User not authenticated');
 
-    const validationError = validateHabitName(name);
-    if (validationError) throw new Error(validationError);
+      const validationError = validateHabitName(name);
+      if (validationError) throw new Error(validationError);
 
-    const trimmedName = name.trim();
+      const trimmedName = name.trim();
 
-    // Create habit (trigger will auto-create first card)
-    const { data: habit, error: habitError } = await supabase
-      .from('habits')
-      .insert({
-        user_id: userId,
-        name: trimmedName,
-      })
-      .select()
-      .single();
+      const { data: habit, error: habitError } = await supabase
+        .from('habits')
+        .insert({
+          user_id: userId,
+          name: trimmedName,
+        })
+        .select()
+        .single();
 
-    if (habitError) throw habitError;
+      if (habitError) throw habitError;
 
-    // Create history entry for habit creation
-    const { error: historyError } = await supabase
-      .from('history')
-      .insert({
+      const { error: historyError } = await supabase.from('history').insert({
         user_id: userId,
         event_type: 'habit_create',
         habit_id: habit.id,
@@ -92,34 +86,34 @@ export const useHabits = (userId: string | undefined) => {
         },
       });
 
-    if (historyError) throw historyError;
+      if (historyError) throw historyError;
 
-    return habit;
-  };
+      return habit;
+    },
+    [userId]
+  );
 
-  const updateHabit = async (habitId: string, name: string, oldName: string): Promise<void> => {
-    if (!userId) throw new Error('User not authenticated');
+  const updateHabit = useCallback(
+    async (habitId: string, name: string, oldName: string): Promise<void> => {
+      if (!userId) throw new Error('User not authenticated');
 
-    const validationError = validateHabitName(name);
-    if (validationError) throw new Error(validationError);
+      const validationError = validateHabitName(name);
+      if (validationError) throw new Error(validationError);
 
-    const trimmedName = name.trim();
+      const trimmedName = name.trim();
 
-    const { error: updateError } = await supabase
-      .from('habits')
-      .update({
-        name: trimmedName,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', habitId)
-      .eq('user_id', userId);
+      const { error: updateError } = await supabase
+        .from('habits')
+        .update({
+          name: trimmedName,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', habitId)
+        .eq('user_id', userId);
 
-    if (updateError) throw updateError;
+      if (updateError) throw updateError;
 
-    // Create history entry for habit edit
-    const { error: historyError } = await supabase
-      .from('history')
-      .insert({
+      const { error: historyError } = await supabase.from('history').insert({
         user_id: userId,
         event_type: 'habit_edit',
         habit_id: habitId,
@@ -130,44 +124,41 @@ export const useHabits = (userId: string | undefined) => {
         },
       });
 
-    if (historyError) throw historyError;
-  };
+      if (historyError) throw historyError;
+    },
+    [userId]
+  );
 
-  const deleteHabit = async (habitId: string): Promise<void> => {
-    if (!userId) throw new Error('User not authenticated');
+  const deleteHabit = useCallback(
+    async (habitId: string): Promise<void> => {
+      if (!userId) throw new Error('User not authenticated');
 
-    // Fetch habit details before deletion for undo
-    const { data: habit, error: habitError } = await supabase
-      .from('habits')
-      .select('*')
-      .eq('id', habitId)
-      .eq('user_id', userId)
-      .single();
+      const { data: habit, error: habitError } = await supabase
+        .from('habits')
+        .select('*')
+        .eq('id', habitId)
+        .eq('user_id', userId)
+        .single();
 
-    if (habitError) throw habitError;
+      if (habitError) throw habitError;
 
-    // Fetch all cards for this habit
-    const { data: cards, error: cardsError } = await supabase
-      .from('cards')
-      .select('*')
-      .eq('habit_id', habitId);
+      const { data: cards, error: cardsError } = await supabase
+        .from('cards')
+        .select('*')
+        .eq('habit_id', habitId);
 
-    if (cardsError) throw cardsError;
+      if (cardsError) throw cardsError;
 
-    // Fetch all punches for these cards
-    const cardIds = cards?.map(c => c.id) || [];
-    const { data: punches, error: punchesError } = await supabase
-      .from('history')
-      .select('*')
-      .eq('event_type', 'punch')
-      .in('card_id', cardIds);
+      const cardIds = cards?.map((c) => c.id) || [];
+      const { data: punches, error: punchesError } = await supabase
+        .from('history')
+        .select('*')
+        .eq('event_type', 'punch')
+        .in('card_id', cardIds);
 
-    if (punchesError) throw punchesError;
+      if (punchesError) throw punchesError;
 
-    // Create history entry for habit deletion (before deleting)
-    const { error: historyError } = await supabase
-      .from('history')
-      .insert({
+      const { error: historyError } = await supabase.from('history').insert({
         user_id: userId,
         event_type: 'habit_delete',
         habit_id: habitId,
@@ -178,37 +169,43 @@ export const useHabits = (userId: string | undefined) => {
             created_at: habit.created_at,
             updated_at: habit.updated_at,
           },
-          cards: cards?.map(c => ({
-            id: c.id,
-            is_current: c.is_current,
-            completed_at: c.completed_at,
-            created_at: c.created_at,
-          })) || [],
-          punches: punches?.map(p => ({
-            id: p.id,
-            card_id: p.card_id!,
-            timezone: p.timezone!,
-            created_at: p.created_at,
-          })) || [],
+          cards:
+            cards?.map((c) => ({
+              id: c.id,
+              is_current: c.is_current,
+              completed_at: c.completed_at,
+              created_at: c.created_at,
+            })) || [],
+          punches:
+            punches?.map((p) => ({
+              id: p.id,
+              card_id: p.card_id!,
+              timezone: p.timezone!,
+              created_at: p.created_at,
+            })) || [],
         },
       });
 
-    if (historyError) throw historyError;
+      if (historyError) throw historyError;
 
-    // Delete habit (cascades to cards and their punches)
-    const { error: deleteError } = await supabase
-      .from('habits')
-      .delete()
-      .eq('id', habitId)
-      .eq('user_id', userId);
+      const { error: deleteError } = await supabase
+        .from('habits')
+        .delete()
+        .eq('id', habitId)
+        .eq('user_id', userId);
 
-    if (deleteError) throw deleteError;
-  };
+      if (deleteError) throw deleteError;
+    },
+    [userId]
+  );
 
-  return {
-    fetchHabits,
-    createHabit,
-    updateHabit,
-    deleteHabit,
-  };
+  return useMemo(
+    () => ({
+      fetchHabits,
+      createHabit,
+      updateHabit,
+      deleteHabit,
+    }),
+    [fetchHabits, createHabit, updateHabit, deleteHabit]
+  );
 };

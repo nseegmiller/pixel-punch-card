@@ -1,4 +1,5 @@
 import { useHabitsContext } from '@/context/HabitsContext';
+import { LoadingSpinner, ErrorMessage } from './ui';
 import HabitCard from './HabitCard';
 
 const HabitList = () => {
@@ -6,31 +7,22 @@ const HabitList = () => {
 
   if (loading) {
     return (
-      <div className="text-center py-12">
-        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-punch-primary"></div>
-        <p className="mt-4 text-gray-600">Loading habits...</p>
+      <div className="py-12">
+        <LoadingSpinner message="Loading habits..." />
       </div>
     );
   }
 
   if (error) {
-    return (
-      <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-        <p className="text-red-800">{error}</p>
-      </div>
-    );
+    return <ErrorMessage message={error} variant="block" />;
   }
 
   if (habits.length === 0) {
     return (
       <div className="text-center py-12">
         <div className="text-6xl mb-4">📋</div>
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">
-          No habits yet
-        </h3>
-        <p className="text-gray-600">
-          Create your first habit to start tracking!
-        </p>
+        <h3 className="text-xl font-semibold text-gray-900 mb-2">No habits yet</h3>
+        <p className="text-gray-600">Create your first habit to start tracking!</p>
       </div>
     );
   }

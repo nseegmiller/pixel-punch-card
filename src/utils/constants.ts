@@ -1,1 +1,5 @@
 export const PUNCHES_PER_CARD = 10;
+export const HISTORY_DISPLAY_LIMIT = 20;
+export const DEFAULT_HISTORY_FETCH_LIMIT = 100;
+export const CELEBRATION_DURATION_MS = 3000;
+export const HABIT_NAME_MAX_LENGTH = 100;

@@ -15,3 +15,16 @@ export const formatPunchTime = (timestamp: string, timezone?: string): string =>
 
   return new Intl.DateTimeFormat('en-US', options).format(date);
 };
+
+export const formatPunchDate = (timestamp: string, timezone?: string): string => {
+  const date = new Date(timestamp);
+
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    timeZone: timezone,
+  };
+
+  return new Intl.DateTimeFormat('en-US', options).format(date);
+};

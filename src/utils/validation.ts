@@ -1,3 +1,5 @@
+import { HABIT_NAME_MAX_LENGTH } from './constants';
+
 export const validateHabitName = (name: string): string | null => {
   const trimmed = name.trim();
 
@@ -5,8 +7,8 @@ export const validateHabitName = (name: string): string | null => {
     return 'Habit name cannot be empty';
   }
 
-  if (trimmed.length > 100) {
-    return 'Habit name must be 100 characters or less';
+  if (trimmed.length > HABIT_NAME_MAX_LENGTH) {
+    return `Habit name must be ${HABIT_NAME_MAX_LENGTH} characters or less`;
   }
 
   return null;

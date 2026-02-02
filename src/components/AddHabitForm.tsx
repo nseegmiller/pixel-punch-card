@@ -1,33 +1,36 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useCallback } from 'react';
 import { useHabitsContext } from '@/context/HabitsContext';
+import { useAsyncAction } from '@/hooks/useAsyncAction';
 import { validateHabitName } from '@/utils/validation';
+import { Button, ErrorMessage } from './ui';
 
 const AddHabitForm = () => {
   const { createHabit } = useHabitsContext();
   const [name, setName] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [validationError, setValidationError] = useState<string | null>(null);
+
+  const handleCreate = useCallback(async () => {
+    const error = validateHabitName(name);
+    if (error) {
+      setValidationError(error);
+      throw new Error(error);
+    }
+    await createHabit(name);
+    setName('');
+  }, [createHabit, name]);
+
+  const { execute, loading, error: asyncError } = useAsyncAction(handleCreate);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
-    const validationError = validateHabitName(name);
-    if (validationError) {
-      setError(validationError);
-      return;
-    }
-
     try {
-      setLoading(true);
-      setError(null);
-      await createHabit(name);
-      setName('');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create habit');
-    } finally {
-      setLoading(false);
+      await execute();
+    } catch {
+      // Error is handled by useAsyncAction
     }
   };
+
+  const error = validationError || asyncError;
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6 mb-6">
@@ -38,22 +41,25 @@ const AddHabitForm = () => {
           value={name}
           onChange={(e) => {
             setName(e.target.value);
-            setError(null);
+            setValidationError(null);
           }}
           placeholder="Enter habit name..."
           className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-punch-primary focus:border-transparent"
           disabled={loading}
         />
-        <button
+        <Button
           type="submit"
-          disabled={loading || !name.trim()}
-          className="px-6 py-2 bg-punch-primary text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-punch-primary disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          disabled={!name.trim()}
+          loading={loading}
+          loadingText="Adding..."
         >
-          {loading ? 'Adding...' : 'Add Habit'}
-        </button>
+          Add Habit
+        </Button>
       </form>
       {error && (
-        <p className="mt-2 text-sm text-red-600">{error}</p>
+        <div className="mt-2">
+          <ErrorMessage message={error} />
+        </div>
       )}
     </div>
   );

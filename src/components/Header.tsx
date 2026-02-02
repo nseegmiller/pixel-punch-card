@@ -1,20 +1,16 @@
-import { useState } from 'react';
+import { useCallback } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import { useAsyncAction } from '@/hooks/useAsyncAction';
+import { Button } from './ui';
 
 const Header = () => {
   const { user, signOut } = useAuth();
-  const [loggingOut, setLoggingOut] = useState(false);
 
-  const handleSignOut = async () => {
-    try {
-      setLoggingOut(true);
-      await signOut();
-    } catch (err) {
-      console.error('Error signing out:', err);
-    } finally {
-      setLoggingOut(false);
-    }
-  };
+  const handleSignOut = useCallback(async () => {
+    await signOut();
+  }, [signOut]);
+
+  const { execute, loading } = useAsyncAction(handleSignOut);
 
   return (
     <header className="bg-white shadow-sm border-b border-gray-200">
@@ -32,16 +28,16 @@ const Header = () => {
           <div className="flex items-center gap-4">
             {user && (
               <>
-                <div className="text-sm text-gray-600">
-                  {user.email}
-                </div>
-                <button
-                  onClick={handleSignOut}
-                  disabled={loggingOut}
-                  className="px-4 py-2 text-sm text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 disabled:opacity-50 transition-colors"
+                <div className="text-sm text-gray-600">{user.email}</div>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={execute}
+                  loading={loading}
+                  loadingText="Signing out..."
                 >
-                  {loggingOut ? 'Signing out...' : 'Sign out'}
-                </button>
+                  Sign out
+                </Button>
               </>
             )}
           </div>
