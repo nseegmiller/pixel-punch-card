@@ -55,7 +55,7 @@ const Modal = ({ children, onClose, title }: ModalProps) => {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+      className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50"
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
@@ -63,10 +63,10 @@ const Modal = ({ children, onClose, title }: ModalProps) => {
     >
       <div
         ref={modalRef}
-        className="bg-white rounded-xl shadow-xl max-w-md w-full p-6"
+        className="bg-gray-800 border border-gray-700 rounded-xl shadow-xl max-w-md w-full p-6"
         tabIndex={-1}
       >
-        <h2 id="modal-title" className="text-2xl font-bold text-gray-900 mb-4">
+        <h2 id="modal-title" className="text-2xl font-bold text-gray-100 mb-4">
           {title}
         </h2>
         {children}

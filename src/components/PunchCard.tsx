@@ -9,6 +9,8 @@ import CompletionCelebration from './CompletionCelebration';
 interface PunchCardProps {
   cardId: string;
   punches: History[];
+  habitId: string;
+  habitName: string;
 }
 
 const PunchCard = ({ cardId, punches }: PunchCardProps) => {
@@ -60,7 +62,7 @@ const PunchCard = ({ cardId, punches }: PunchCardProps) => {
 
       {showCelebration && <CompletionCelebration />}
 
-      <div className="text-center text-sm text-gray-600">
+      <div className="text-center text-sm text-gray-400">
         {punches.length} / {PUNCHES_PER_CARD} punches
       </div>
     </div>

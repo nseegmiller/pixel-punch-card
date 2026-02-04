@@ -33,8 +33,8 @@ const AddHabitForm = () => {
   const error = validationError || asyncError;
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 mb-6">
-      <h2 className="text-xl font-semibold text-gray-800 mb-4">Add New Habit</h2>
+    <div className="bg-gray-800 rounded-xl shadow-md p-6 mt-6 border border-gray-700">
+      <h2 className="text-xl font-semibold text-gray-100 mb-4">Add New Habit</h2>
       <form onSubmit={handleSubmit} className="flex gap-3">
         <input
           type="text"
@@ -44,7 +44,7 @@ const AddHabitForm = () => {
             setValidationError(null);
           }}
           placeholder="Enter habit name..."
-          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-punch-primary focus:border-transparent"
+          className="flex-1 px-4 py-2 border border-gray-600 bg-gray-700 text-gray-100 placeholder-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-punch-primary focus:border-transparent"
           disabled={loading}
         />
         <Button

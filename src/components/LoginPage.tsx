@@ -34,13 +34,13 @@ const LoginPage = () => {
   const { execute, loading, error } = useAsyncAction(handleSignIn);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 to-purple-50">
-      <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-2xl shadow-xl">
+    <div className="min-h-screen flex items-center justify-center bg-gray-900">
+      <div className="max-w-md w-full space-y-8 p-8 bg-gray-800 rounded-2xl shadow-xl border border-gray-700">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+          <h1 className="text-4xl font-bold text-gray-100 mb-2">
             Pixel Punch Card
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-400">
             Track your habits, one punch at a time
           </p>
         </div>
@@ -49,7 +49,7 @@ const LoginPage = () => {
           <button
             onClick={execute}
             disabled={loading}
-            className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-punch-primary disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-600 rounded-lg shadow-sm bg-gray-700 text-gray-100 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-punch-primary focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <GoogleIcon />
             <span className="font-medium">
@@ -64,7 +64,7 @@ const LoginPage = () => {
           )}
         </div>
 
-        <div className="mt-8 text-center text-sm text-gray-500">
+        <div className="mt-8 text-center text-sm text-gray-400">
           <p>Start tracking your habits with a simple punch card system.</p>
           <p className="mt-2">Complete 10 punches to finish a card!</p>
         </div>

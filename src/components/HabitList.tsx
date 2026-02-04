@@ -21,8 +21,8 @@ const HabitList = () => {
     return (
       <div className="text-center py-12">
         <div className="text-6xl mb-4">📋</div>
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">No habits yet</h3>
-        <p className="text-gray-600">Create your first habit to start tracking!</p>
+        <h3 className="text-xl font-semibold text-gray-100 mb-2">No habits yet</h3>
+        <p className="text-gray-400">Create your first habit to start tracking!</p>
       </div>
     );
   }

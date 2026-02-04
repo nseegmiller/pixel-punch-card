@@ -2,7 +2,8 @@ import { createContext, useContext, useState, useEffect, ReactNode, useCallback 
 import { useAuth } from './AuthContext';
 import { useHabits as useHabitsHook, HabitWithCard } from '@/hooks/useHabits';
 import { useHistory as useHistoryHook, PunchResult } from '@/hooks/useHistory';
-import { History } from '@/types';
+import { useHistoryDelete } from '@/hooks/useHistoryDelete';
+import { History, EventType } from '@/types';
 import { supabase } from '@/lib/supabase';
 import { DEFAULT_HISTORY_FETCH_LIMIT } from '@/utils/constants';
 
@@ -17,6 +18,7 @@ interface HabitsContextType {
   punch: (cardId: string) => Promise<PunchResult>;
   unpunch: (historyId: string) => Promise<void>;
   undo: () => Promise<void>;
+  deleteHistoryEntry: (historyId: string, eventType: EventType) => Promise<void>;
   refresh: () => Promise<void>;
 }
 
@@ -40,6 +42,7 @@ export const HabitsProvider = ({ children }: { children: ReactNode }) => {
   const userId = user?.id;
   const habitsHook = useHabitsHook(userId);
   const historyHook = useHistoryHook(userId);
+  const historyDeleteHook = useHistoryDelete(userId);
 
   const refresh = useCallback(async () => {
     if (!userId) {
@@ -182,6 +185,21 @@ export const HabitsProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [historyHook, refresh]);
 
+  const deleteHistoryEntry = useCallback(
+    async (historyId: string, eventType: EventType) => {
+      try {
+        setError(null);
+        await historyDeleteHook.deleteHistoryEntry(historyId, eventType);
+        await refresh();
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to delete history entry';
+        setError(errorMessage);
+        throw err;
+      }
+    },
+    [historyDeleteHook, refresh]
+  );
+
   return (
     <HabitsContext.Provider
       value={{
@@ -195,6 +213,7 @@ export const HabitsProvider = ({ children }: { children: ReactNode }) => {
         punch,
         unpunch,
         undo,
+        deleteHistoryEntry,
         refresh,
       }}
     >

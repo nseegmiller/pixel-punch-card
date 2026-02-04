@@ -32,10 +32,10 @@ const PunchSlot = ({ punch, onClick, disabled }: PunchSlotProps) => {
           ${
             isPunched
               ? 'bg-punch-primary border-punch-primary text-white hover:bg-indigo-700 hover:border-indigo-700 animate-punch'
-              : 'bg-white border-gray-300 hover:border-punch-primary hover:bg-indigo-50'
+              : 'bg-gray-700 border-gray-600 hover:border-punch-primary hover:bg-gray-600'
           }
           ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-punch-primary
+          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-punch-primary
         `}
         title={formattedTime || 'Click to punch'}
       >
@@ -46,7 +46,7 @@ const PunchSlot = ({ punch, onClick, disabled }: PunchSlotProps) => {
         )}
       </button>
       {formattedDate && (
-        <div className="text-xs text-gray-500 whitespace-nowrap text-center">
+        <div className="text-xs text-gray-400 whitespace-nowrap text-center">
           {formattedDate}
         </div>
       )}

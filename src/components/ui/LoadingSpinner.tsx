@@ -16,13 +16,13 @@ const LoadingSpinner = ({ size = 'md', message, fullScreen = false }: LoadingSpi
       <div
         className={`inline-block animate-spin rounded-full border-b-2 border-punch-primary ${sizeStyles[size]}`}
       />
-      {message && <p className="mt-4 text-gray-600">{message}</p>}
+      {message && <p className="mt-4 text-gray-400">{message}</p>}
     </div>
   );
 
   if (fullScreen) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-gray-900">
         {spinner}
       </div>
     );
