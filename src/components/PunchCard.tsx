@@ -58,7 +58,7 @@ const PunchCard = ({ cardId, punches, habitName }: PunchCardProps) => {
   return (
     <>
       <div className="relative">
-        <div className="grid grid-cols-5 gap-x-3 gap-y-6 mb-6">
+        <div className="grid grid-cols-5 gap-x-2 gap-y-4">
           {slots.map((punchData, index) => (
             <PunchSlot
               key={index}
@@ -71,10 +71,6 @@ const PunchCard = ({ cardId, punches, habitName }: PunchCardProps) => {
         </div>
 
         {showCelebration && <CompletionCelebration />}
-
-        <div className="text-center text-sm text-gray-400">
-          {punches.length} / {PUNCHES_PER_CARD} punches
-        </div>
       </div>
 
       {showCustomPunchModal && (

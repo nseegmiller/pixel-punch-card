@@ -68,19 +68,12 @@ const HistoryView = ({ showDeleteButtons = false }: HistoryViewProps) => {
   const { execute: executeDelete, loading: deleteLoading } = useAsyncAction(confirmDelete);
 
   if (recentHistory.length === 0) {
-    return (
-      <div className="bg-white rounded-xl shadow-md p-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">Recent Activity</h2>
-        <p className="text-gray-600 text-center py-8">No activity yet</p>
-      </div>
-    );
+    return <p className="text-gray-400 text-center py-8">No activity yet</p>;
   }
 
   return (
     <>
-      <div className={showDeleteButtons ? '' : 'bg-gray-800 border border-gray-700 rounded-xl shadow-md p-6'}>
-        {!showDeleteButtons && <h2 className="text-xl font-semibold text-gray-100 mb-4">Recent Activity</h2>}
-        <div className={`space-y-3 ${showDeleteButtons ? '' : 'max-h-96 overflow-y-auto'}`}>
+      <div className="space-y-3">
           {recentHistory.slice(0, HISTORY_DISPLAY_LIMIT).map((event) => {
             const iconConfig = eventIcons[event.event_type];
             const habitName = getHabitName(event.habit_id, event.event_data);
@@ -110,7 +103,6 @@ const HistoryView = ({ showDeleteButtons = false }: HistoryViewProps) => {
               </div>
             );
           })}
-        </div>
       </div>
 
       {deleteConfirm && (

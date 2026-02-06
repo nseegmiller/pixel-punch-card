@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { supabase } from '@/lib/supabase';
-import { History, HabitDeleteEvent } from '@/types';
+import { History, HabitDeleteEvent, HistoryInsert } from '@/types';
 import { getUserTimezone } from '@/utils/timezone';
 import { PUNCHES_PER_CARD, DEFAULT_HISTORY_FETCH_LIMIT } from '@/utils/constants';
 
@@ -39,18 +39,14 @@ export const useHistory = (userId: string | undefined) => {
       if (cardFetchError) throw cardFetchError;
 
       // Build the punch record
-      const punchRecord: any = {
+      const punchRecord: HistoryInsert = {
         user_id: userId,
         event_type: 'punch',
         card_id: cardId,
         habit_id: card.habit_id,
         timezone,
+        ...(customTimestamp && { created_at: customTimestamp }),
       };
-
-      // Add custom timestamp if provided
-      if (customTimestamp) {
-        punchRecord.created_at = customTimestamp;
-      }
 
       const { error: punchError } = await supabase.from('history').insert(punchRecord);
 
@@ -59,14 +55,7 @@ export const useHistory = (userId: string | undefined) => {
       const newCount = currentCount + 1;
 
       if (newCount === PUNCHES_PER_CARD) {
-        const { data: card, error: cardError } = await supabase
-          .from('cards')
-          .select('habit_id')
-          .eq('id', cardId)
-          .single();
-
-        if (cardError) throw cardError;
-
+        // Use cached card data from earlier fetch
         const { error: updateError } = await supabase
           .from('cards')
           .update({

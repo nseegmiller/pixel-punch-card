@@ -34,9 +34,13 @@ const HabitCard = ({ habit }: HabitCardProps) => {
         </button>
 
         <div className="flex items-start justify-between mb-6 pr-8">
-          <div className="flex-1">
-            <h3 className="text-xl font-semibold text-gray-100 mb-2">{habit.name}</h3>
-            <CompletedCardsCount count={habit.completedCardsCount} />
+          <div className="flex-1 min-w-0">
+            <h3 className="text-xl font-semibold text-gray-100 mb-2 truncate" title={habit.name}>
+              {habit.name}
+            </h3>
+            <div className="h-6">
+              <CompletedCardsCount count={habit.completedCardsCount} />
+            </div>
           </div>
         </div>
 

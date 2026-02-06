@@ -37,7 +37,7 @@ const PunchSlot = ({ punch, onClick, onRightClick, disabled }: PunchSlotProps) =
         onContextMenu={handleContextMenu}
         disabled={disabled}
         className={`
-          relative w-16 h-16 rounded-lg border-2 transition-all duration-200
+          relative w-12 h-12 rounded-lg border-2 transition-all duration-200
           ${
             isPunched
               ? 'bg-punch-primary border-punch-primary text-white hover:bg-indigo-700 hover:border-indigo-700 animate-punch'
@@ -50,15 +50,13 @@ const PunchSlot = ({ punch, onClick, onRightClick, disabled }: PunchSlotProps) =
       >
         {isPunched && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <Icon name="checkBold" className="w-8 h-8" />
+            <Icon name="checkBold" className="w-6 h-6" />
           </div>
         )}
       </button>
-      {formattedDate && (
-        <div className="text-xs text-gray-400 whitespace-nowrap text-center">
-          {formattedDate}
-        </div>
-      )}
+      <div className={`text-xs text-gray-400 whitespace-nowrap text-center h-4 ${!formattedDate ? 'invisible' : ''}`}>
+        {formattedDate || '\u00A0'}
+      </div>
     </div>
   );
 };
