@@ -10,7 +10,7 @@ export interface PunchResult {
 
 export const useHistory = (userId: string | undefined) => {
   const punch = useCallback(
-    async (cardId: string): Promise<PunchResult> => {
+    async (cardId: string, customTimestamp?: string): Promise<PunchResult> => {
       if (!userId) throw new Error('User not authenticated');
 
       const timezone = getUserTimezone();
@@ -38,13 +38,21 @@ export const useHistory = (userId: string | undefined) => {
 
       if (cardFetchError) throw cardFetchError;
 
-      const { error: punchError } = await supabase.from('history').insert({
+      // Build the punch record
+      const punchRecord: any = {
         user_id: userId,
         event_type: 'punch',
         card_id: cardId,
         habit_id: card.habit_id,
         timezone,
-      });
+      };
+
+      // Add custom timestamp if provided
+      if (customTimestamp) {
+        punchRecord.created_at = customTimestamp;
+      }
+
+      const { error: punchError } = await supabase.from('history').insert(punchRecord);
 
       if (punchError) throw punchError;
 

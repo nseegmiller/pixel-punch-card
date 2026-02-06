@@ -5,6 +5,7 @@ import PunchCard from './PunchCard';
 import CompletedCardsCount from './CompletedCardsCount';
 import CardMenuModal from './CardMenuModal';
 import CardHistoryModal from './CardHistoryModal';
+import CustomPunchModal from './CustomPunchModal';
 import EditHabitModal from './EditHabitModal';
 import DeleteHabitModal from './DeleteHabitModal';
 
@@ -15,6 +16,7 @@ interface HabitCardProps {
 const HabitCard = ({ habit }: HabitCardProps) => {
   const [showCardMenu, setShowCardMenu] = useState(false);
   const [showCardHistory, setShowCardHistory] = useState(false);
+  const [showCustomPunch, setShowCustomPunch] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -57,6 +59,7 @@ const HabitCard = ({ habit }: HabitCardProps) => {
           cardId={habit.currentCard?.id || ''}
           onClose={() => setShowCardMenu(false)}
           onViewHistory={() => setShowCardHistory(true)}
+          onAddBackdatedPunch={() => setShowCustomPunch(true)}
           onEdit={() => setShowEditModal(true)}
           onDelete={() => setShowDeleteModal(true)}
         />
@@ -67,6 +70,14 @@ const HabitCard = ({ habit }: HabitCardProps) => {
           habitName={habit.name}
           cardId={habit.currentCard.id}
           onClose={() => setShowCardHistory(false)}
+        />
+      )}
+
+      {showCustomPunch && habit.currentCard && (
+        <CustomPunchModal
+          cardId={habit.currentCard.id}
+          habitName={habit.name}
+          onClose={() => setShowCustomPunch(false)}
         />
       )}
 

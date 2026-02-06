@@ -15,7 +15,7 @@ interface HabitsContextType {
   createHabit: (name: string) => Promise<void>;
   updateHabit: (habitId: string, name: string, oldName: string) => Promise<void>;
   deleteHabit: (habitId: string) => Promise<void>;
-  punch: (cardId: string) => Promise<PunchResult>;
+  punch: (cardId: string, customTimestamp?: string) => Promise<PunchResult>;
   unpunch: (historyId: string) => Promise<void>;
   undo: () => Promise<void>;
   deleteHistoryEntry: (historyId: string, eventType: EventType) => Promise<void>;
@@ -143,10 +143,10 @@ export const HabitsProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const punch = useCallback(
-    async (cardId: string): Promise<PunchResult> => {
+    async (cardId: string, customTimestamp?: string): Promise<PunchResult> => {
       try {
         setError(null);
-        const result = await historyHook.punch(cardId);
+        const result = await historyHook.punch(cardId, customTimestamp);
         await refresh();
         return result;
       } catch (err) {

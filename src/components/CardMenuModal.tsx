@@ -6,6 +6,7 @@ interface CardMenuModalProps {
   cardId: string;
   onClose: () => void;
   onViewHistory: () => void;
+  onAddBackdatedPunch: () => void;
   onEdit: () => void;
   onDelete: () => void;
 }
@@ -13,6 +14,7 @@ interface CardMenuModalProps {
 const CardMenuModal = ({
   onClose,
   onViewHistory,
+  onAddBackdatedPunch,
   onEdit,
   onDelete,
 }: CardMenuModalProps) => {
@@ -30,6 +32,13 @@ const CardMenuModal = ({
         >
           <Icon name="clock" className="w-5 h-5 text-gray-400" />
           <span className="text-gray-100">View Punch History</span>
+        </button>
+        <button
+          onClick={() => handleOption(onAddBackdatedPunch)}
+          className="w-full flex items-center gap-3 p-3 text-left hover:bg-gray-700 rounded-lg transition-colors"
+        >
+          <Icon name="plus" className="w-5 h-5 text-gray-400" />
+          <span className="text-gray-100">Add Backdated Punch</span>
         </button>
         <button
           onClick={() => handleOption(onEdit)}
