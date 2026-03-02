@@ -28,19 +28,19 @@ const CardHistoryModal = ({ habitName, cardId, onClose }: CardHistoryModalProps)
     <Modal onClose={onClose} title={`Punch History - ${habitName}`}>
       <div className="space-y-3 max-h-[60vh] overflow-y-auto">
         {cardPunches.length === 0 ? (
-          <p className="text-center text-gray-400 py-8">No punches recorded yet</p>
+          <p className="text-center text-ui-muted py-8">No punches recorded yet</p>
         ) : (
           cardPunches.map((punch) => (
-            <div key={punch.id} className="flex items-center gap-3 p-3 bg-gray-700 rounded-lg">
+            <div key={punch.id} className="flex items-center gap-3 p-3 bg-ui-raised rounded-lg">
               <div className="flex-shrink-0">
                 <Icon name="check" className="w-5 h-5 text-punch-primary" />
               </div>
-              <div className="flex-1 text-sm text-gray-300">
+              <div className="flex-1 text-sm text-ui-secondary">
                 {formatPunchTime(punch.created_at, punch.timezone || undefined)}
               </div>
               <button
                 onClick={() => handleDelete(punch.id)}
-                className="flex-shrink-0 p-1 text-gray-400 hover:text-red-400 transition-colors"
+                className="flex-shrink-0 p-1 text-ui-muted hover:text-red-400 transition-colors"
                 title="Delete punch"
               >
                 <Icon name="trash" className="w-4 h-4" />

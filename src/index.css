@@ -2,17 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #f9fafb;
+@font-face {
+  font-family: 'FSPixelSans';
+  src: url('./assets/fonts/fs-pixel-sans-unicode-regular.ttf') format('truetype');
+  font-display: swap;
+  /* Trim the large built-in ascender so glyphs sit centred in their line box */
+  ascent-override: 70%;
+  descent-override: 30%;
+  line-gap-override: 0%;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer base {
+  * {
+    font-family: 'FSPixelSans', monospace;
+    font-weight: 400 !important;
+    line-height: 1 !important;
+  }
 }
+
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+body {
+  margin: 0;
+  background-color: #3e4350;
+  color: #f8e6d0;
+  font-size: 2rem;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+}
+
+/* Buttons: flex-center so pixel font glyphs sit in the middle of the hit area */
+button, [type="button"], [type="submit"], [type="reset"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Force minimum font sizes — overrides all Tailwind text-* utilities */
+.text-xs, .text-sm, .text-base { font-size: 2rem !important; }
+.text-lg, .text-xl, .text-2xl  { font-size: 2.5rem !important; }
+.text-3xl, .text-4xl, .text-5xl { font-size: 3rem !important; }
+.text-6xl { font-size: 3.5rem !important; }

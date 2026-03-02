@@ -21,14 +21,14 @@ const HabitList = () => {
     return (
       <div className="text-center py-12">
         <div className="text-6xl mb-4">📋</div>
-        <h3 className="text-xl font-semibold text-gray-100 mb-2">No habits yet</h3>
-        <p className="text-gray-400">Create your first habit to start tracking!</p>
+        <h3 className="text-xl font-semibold text-ui-primary mb-2">No habits yet</h3>
+        <p className="text-ui-secondary">Create your first habit to start tracking!</p>
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {habits.map((habit) => (
         <HabitCard key={habit.id} habit={habit} />
       ))}

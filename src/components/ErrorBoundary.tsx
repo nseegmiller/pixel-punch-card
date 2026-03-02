@@ -36,13 +36,13 @@ class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-          <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 text-center">
+        <div className="min-h-screen flex items-center justify-center bg-ui-bg p-4">
+          <div className="max-w-md w-full bg-ui-surface rounded-xl shadow-lg p-8 text-center">
             <div className="text-6xl mb-4">😵</div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            <h1 className="text-2xl font-bold text-ui-primary mb-2">
               Something went wrong
             </h1>
-            <p className="text-gray-600 mb-6">
+            <p className="text-ui-secondary mb-6">
               An unexpected error occurred. Please try again.
             </p>
             {this.state.error && (
