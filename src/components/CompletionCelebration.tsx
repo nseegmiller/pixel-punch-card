@@ -4,7 +4,7 @@ const CompletionCelebration = () => {
       <div className="bg-ui-surface rounded-2xl shadow-2xl p-8 animate-celebration">
         <div className="text-center">
           <div className="text-6xl mb-4">🎉</div>
-          <h2 className="text-3xl font-bold text-punch-success mb-2">
+          <h2 className="text-3xl text-punch-success mb-2">
             Card Complete!
           </h2>
           <p className="text-ui-secondary">

@@ -36,11 +36,11 @@ const CustomPunchModal = ({ cardId, habitName, onClose }: CustomPunchModalProps)
     <Modal title="Add Backdated Punch" onClose={onClose}>
       <form onSubmit={execute}>
         <div className="mb-4">
-          <p className="text-sm text-gray-400 mb-3">
-            Adding punch for: <span className="font-semibold text-gray-200">{habitName}</span>
+          <p className="text-sm text-modal-muted mb-3">
+            Adding punch for: <span className="text-modal-text">{habitName}</span>
           </p>
 
-          <label className="block text-sm font-medium text-gray-300 mb-2">
+          <label className="block text-sm text-modal-text mb-2">
             Date and Time
           </label>
           <input
@@ -48,10 +48,10 @@ const CustomPunchModal = ({ cardId, habitName, onClose }: CustomPunchModalProps)
             value={datetime}
             onChange={(e) => setDatetime(e.target.value)}
             max={now.toISOString().slice(0, 16)}
-            className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-punch-primary focus:border-transparent"
+            className="w-full px-4 py-2 border border-ui-border bg-modal-hover text-modal-text rounded-lg focus:outline-none focus:ring-2 focus:ring-punch-primary focus:border-transparent"
             required
           />
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs text-modal-muted mt-1">
             Cannot select future dates
           </p>
         </div>

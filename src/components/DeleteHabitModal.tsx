@@ -21,10 +21,10 @@ const DeleteHabitModal = ({ habitId, habitName, onClose }: DeleteHabitModalProps
 
   return (
     <Modal title="Delete Habit" onClose={onClose}>
-      <p className="text-gray-300 mb-2">
-        Are you sure you want to delete <span className="font-semibold text-gray-100">"{habitName}"</span>?
+      <p className="text-modal-text mb-2">
+        Are you sure you want to delete <span>"{habitName}"</span>?
       </p>
-      <p className="text-sm text-gray-400 mb-6">
+      <p className="text-sm text-modal-muted mb-6">
         This will delete all cards and punch history for this habit. You can undo this action.
       </p>
       {error && (

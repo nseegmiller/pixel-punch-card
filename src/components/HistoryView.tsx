@@ -68,7 +68,7 @@ const HistoryView = ({ showDeleteButtons = false }: HistoryViewProps) => {
   const { execute: executeDelete, loading: deleteLoading } = useAsyncAction(confirmDelete);
 
   if (recentHistory.length === 0) {
-    return <p className="text-ui-secondary text-center py-8">No activity yet</p>;
+    return <p className="text-modal-muted text-center py-8">No activity yet</p>;
   }
 
   return (
@@ -78,23 +78,23 @@ const HistoryView = ({ showDeleteButtons = false }: HistoryViewProps) => {
             const iconConfig = eventIcons[event.event_type];
             const habitName = getHabitName(event.habit_id, event.event_data);
             return (
-              <div key={event.id} className="flex items-start gap-3 p-3 bg-ui-raised rounded-lg">
+              <div key={event.id} className="flex items-start gap-3 p-3 bg-modal-hover rounded-lg">
                 <div className="flex-shrink-0 mt-0.5">
                   {iconConfig && <Icon name={iconConfig.name} className={`w-5 h-5 ${iconConfig.className}`} />}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-ui-primary">
+                  <p className="text-sm text-modal-text">
                     {eventDescriptions[event.event_type] || 'Unknown event'}
                   </p>
-                  <p className="text-sm text-ui-secondary truncate">{habitName}</p>
+                  <p className="text-sm text-modal-muted truncate">{habitName}</p>
                 </div>
-                <div className="flex-shrink-0 text-xs text-ui-muted">
+                <div className="flex-shrink-0 text-xs text-modal-muted">
                   {formatPunchTime(event.created_at, event.timezone || undefined)}
                 </div>
                 {showDeleteButtons && (
                   <button
                     onClick={() => handleDelete(event.id, event.event_type as EventType, habitName)}
-                    className="flex-shrink-0 p-1 text-ui-secondary hover:text-red-400 transition-colors"
+                    className="flex-shrink-0 p-1 text-modal-muted hover:text-danger transition-colors"
                     title="Delete entry"
                   >
                     <Icon name="trash" className="w-4 h-4" />
@@ -110,8 +110,8 @@ const HistoryView = ({ showDeleteButtons = false }: HistoryViewProps) => {
           onClose={() => setDeleteConfirm(null)}
           title="Confirm Delete"
         >
-          <p className="text-ui-secondary mb-6">
-            This will permanently remove the ability to restore <strong className="text-ui-primary">{deleteConfirm.habitName}</strong>. Continue?
+          <p className="text-modal-muted mb-6">
+            This will permanently remove the ability to restore <strong className="text-modal-text">{deleteConfirm.habitName}</strong>. Continue?
           </p>
           <div className="flex justify-end gap-3">
             <Button

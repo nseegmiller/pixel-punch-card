@@ -59,7 +59,7 @@ const EditHabitModal = ({ habitId, currentName, onClose }: EditHabitModalProps) 
             setValidationError(null);
           }}
           placeholder="Enter habit name..."
-          className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-gray-100 placeholder-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-punch-primary focus:border-transparent mb-4"
+          className="w-full px-4 py-2 border border-ui-border bg-modal-hover text-modal-text placeholder-modal-muted rounded-lg focus:outline-none focus:ring-2 focus:ring-punch-primary focus:border-transparent mb-4"
           disabled={loading}
           autoFocus
         />

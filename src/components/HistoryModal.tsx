@@ -7,7 +7,7 @@ interface HistoryModalProps {
 
 const HistoryModal = ({ onClose }: HistoryModalProps) => {
   return (
-    <Modal onClose={onClose} title="History">
+    <Modal onClose={onClose} title="History" size="lg">
       <div className="max-h-[70vh] overflow-y-auto">
         <HistoryView />
       </div>

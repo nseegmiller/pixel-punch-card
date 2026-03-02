@@ -1,5 +1,5 @@
 import licenseText from '@/assets/fonts/fs-pixel-sans-unicode-regular-license.txt?raw';
-import { Modal } from './ui';
+import { Modal, Button } from './ui';
 
 interface LicensesModalProps {
   onClose: () => void;
@@ -7,27 +7,31 @@ interface LicensesModalProps {
 
 const LicensesModal = ({ onClose }: LicensesModalProps) => {
   return (
-    <Modal title="Open Source Licenses" onClose={onClose}>
-      <div className="space-y-4">
-        <div>
-          <h3 className="text-sm font-semibold text-ui-primary mb-1">
-            FS Pixel Sans Unicode Regular
-          </h3>
-          <p className="text-xs text-ui-secondary mb-2">
-            Font by NZWStudios2024 via{' '}
-            <a
-              href="https://fontstruct.com/fontstructions/show/2606508"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-punch-primary hover:underline"
-            >
-              Fontstruct
-            </a>
-          </p>
-          <pre className="text-xs text-ui-secondary whitespace-pre-wrap font-mono bg-ui-bg rounded p-3 max-h-80 overflow-y-auto">
-            {licenseText}
-          </pre>
-        </div>
+    <Modal title="Open Source Licenses" onClose={onClose} size="xl" variant="system">
+      <div>
+        <h3 className="mb-1">
+          FS Pixel Sans Unicode Regular
+        </h3>
+        <p className="mb-2 text-modal-muted">
+          Font by NZWStudios2024 via{' '}
+          <a
+            href="https://fontstruct.com/fontstructions/show/2606508"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-punch-primary hover:underline"
+          >
+            Fontstruct
+          </a>
+        </p>
+        <pre
+          className="whitespace-pre-wrap rounded p-3 overflow-y-auto bg-modal-hover text-modal-text"
+          style={{ maxHeight: '60vh' }}
+        >
+          {licenseText}
+        </pre>
+      </div>
+      <div className="flex justify-end mt-4">
+        <Button variant="secondary" onClick={onClose}>Close</Button>
       </div>
     </Modal>
   );

@@ -5,18 +5,6 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    fontSize: {
-      'xs':   ['2rem',   { lineHeight: '1.4' }],
-      'sm':   ['2rem',   { lineHeight: '1.4' }],
-      'base': ['2rem',   { lineHeight: '1.4' }],
-      'lg':   ['2.25rem',{ lineHeight: '1.4' }],
-      'xl':   ['2.5rem', { lineHeight: '1.3' }],
-      '2xl':  ['2.5rem', { lineHeight: '1.3' }],
-      '3xl':  ['3rem',   { lineHeight: '1.2' }],
-      '4xl':  ['3rem',   { lineHeight: '1.2' }],
-      '5xl':  ['3rem',   { lineHeight: '1.1' }],
-      '6xl':  ['3.5rem', { lineHeight: '1'   }],
-    },
     extend: {
       fontFamily: {
         arcade: ['FSPixelSans', 'monospace'],
@@ -30,6 +18,12 @@ export default {
           muted:     '#7c8497',
           secondary: '#9daec0',
           primary:   '#f8e6d0',
+        },
+        modal: {
+          bg:    '#f8e6d0',
+          text:  '#3e4350',
+          hover: '#dcbaa0',
+          muted: '#5b596d',
         },
         punch: {
           primary: '#5c79a6',

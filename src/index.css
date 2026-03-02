@@ -40,9 +40,22 @@ button, [type="button"], [type="submit"], [type="reset"] {
   align-items: center !important;
   justify-content: center !important;
 }
+button.justify-start {
+  justify-content: flex-start !important;
+}
 
 /* Force minimum font sizes — overrides all Tailwind text-* utilities */
 .text-xs, .text-sm, .text-base { font-size: 2rem !important; }
 .text-lg, .text-xl, .text-2xl  { font-size: 2.5rem !important; }
 .text-3xl, .text-4xl, .text-5xl { font-size: 3rem !important; }
 .text-6xl { font-size: 3.5rem !important; }
+
+/* System font override for non-pixel content like license modals */
+.system-font, .system-font * {
+  font-family: system-ui, -apple-system, sans-serif !important;
+  font-size: 1rem !important;
+  line-height: 1.5 !important;
+}
+.system-font h2 { font-size: 1.25rem !important; }
+.system-font pre { font-size: 0.8rem !important; font-family: ui-monospace, monospace !important; }
+.system-font button { font-size: 1.5rem !important; line-height: 1 !important; }

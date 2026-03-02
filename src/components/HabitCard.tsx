@@ -49,7 +49,7 @@ const HabitCard = ({ habit }: HabitCardProps) => {
         </div>
 
         {/* Completed count sits just below the card */}
-        <div className="h-5 mt-1 flex justify-center">
+        <div className="h-8 mt-1 flex justify-center">
           <CompletedCardsCount count={habit.completedCardsCount} />
         </div>
       </div>

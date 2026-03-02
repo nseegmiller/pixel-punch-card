@@ -35,9 +35,9 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-ui-bg">
-      <div className="max-w-md w-full space-y-8 p-8 bg-ui-surface rounded-2xl shadow-xl border border-ui-border">
+      <div className="max-w-md w-full space-y-6 sm:space-y-8 p-4 sm:p-8 mx-2 bg-ui-surface rounded-2xl shadow-xl border border-ui-border">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-ui-primary mb-2">
+          <h1 className="text-4xl text-ui-primary mb-2">
             Pixel Punch Card
           </h1>
           <p className="text-ui-secondary">
@@ -52,7 +52,7 @@ const LoginPage = () => {
             className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-ui-border rounded-lg shadow-sm bg-ui-raised text-ui-primary hover:bg-ui-border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-punch-primary focus:ring-offset-ui-surface disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <GoogleIcon />
-            <span className="font-medium">
+            <span>
               {loading ? 'Signing in...' : 'Sign in with Google'}
             </span>
           </button>

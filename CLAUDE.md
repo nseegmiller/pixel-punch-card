@@ -145,6 +145,53 @@ VITE_SUPABASE_URL=your-project-url.supabase.co
 VITE_SUPABASE_ANON_KEY=your-anon-key
 ```
 
+## Color Palette
+
+**STRICT RULE:** Only use colors from this 32-color palette. Never use Tailwind default colors (gray-*, red-*, etc.) or arbitrary hex values outside this set.
+
+```
+#bc8b96 #974b72 #7f305c #5d2047 #46173a #340d31 #200816
+#312234 #40364a #5b596d #7c8497 #9daec0 #f8e6d0 #dcbaa0
+#c08e70 #946452 #683a34 #442125 #732f31 #a23c3c #b45e4e
+#cf8c52 #e8c988 #a3ab6d #5e8c51 #436852 #3e4350 #381d4e
+#3c2c6a #444c84 #5c79a6 #8bc0ca
+```
+
+### Tailwind Color Tokens (in `tailwind.config.js`)
+
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `ui.bg` | `#3e4350` | Page background |
+| `ui.surface` | `#312234` | Header, form wrappers |
+| `ui.raised` | `#40364a` | Inputs, secondary buttons |
+| `ui.border` | `#5b596d` | Borders |
+| `ui.muted` | `#7c8497` | De-emphasized text on dark bg |
+| `ui.secondary` | `#9daec0` | Secondary text on dark bg |
+| `ui.primary` | `#f8e6d0` | Primary text on dark bg |
+| `modal.bg` | `#f8e6d0` | Modal background (light) |
+| `modal.text` | `#3e4350` | Modal text (dark on light) |
+| `modal.hover` | `#dcbaa0` | Modal hover/row backgrounds |
+| `modal.muted` | `#5b596d` | De-emphasized text in modals |
+| `punch.primary` | `#5c79a6` | Punch accent color |
+| `punch.hover` | `#8bc0ca` | Punch hover state |
+| `punch.success` | `#5e8c51` | Success/completion |
+| `danger` | `#a23c3c` | Destructive actions |
+| `danger.hover` | `#b45e4e` | Destructive hover |
+
+### Modal Color Scheme
+
+Modals use a **light background** (`#f8e6d0`) with **dark text** (`#3e4350`). This is the inverse of the main app. Inside modals:
+- Use `text-modal-text`, `text-modal-muted` instead of `text-ui-primary`, `text-ui-secondary`
+- Use `bg-modal-hover` for row backgrounds instead of `bg-ui-raised`
+- The `Modal` component sets `color: #3e4350` via inline style so children inherit dark text by default
+
+### Pixel Art & Font
+
+- All images use `image-rendering: pixelated` (`.pixelated` class)
+- Font: FSPixelSans (`src/assets/fonts/`) used globally at minimum 2rem
+- Integer-only scaling for pixel art (ResizeObserver in PunchCard.tsx)
+- `@font-face` metric overrides fix vertical centering: `ascent-override: 70%; descent-override: 30%`
+
 ## Testing
 
 **Unit Tests:** `src/**/*.test.ts` - Vitest + Testing Library

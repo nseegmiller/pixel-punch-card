@@ -28,31 +28,31 @@ const CardMenuModal = ({
       <div className="space-y-2">
         <button
           onClick={() => handleOption(onViewHistory)}
-          className="w-full flex items-center gap-3 p-3 text-left hover:bg-ui-raised rounded-lg transition-colors"
+          className="justify-start w-full gap-3 p-3 text-modal-text hover:bg-modal-hover rounded-lg transition-colors"
         >
-          <Icon name="clock" className="w-5 h-5 text-ui-muted" />
-          <span className="text-ui-primary">View Punch History</span>
+          <Icon name="clock" className="w-5 h-5 text-modal-muted" />
+          <span>View Punch History</span>
         </button>
         <button
           onClick={() => handleOption(onAddBackdatedPunch)}
-          className="w-full flex items-center gap-3 p-3 text-left hover:bg-ui-raised rounded-lg transition-colors"
+          className="justify-start w-full gap-3 p-3 text-modal-text hover:bg-modal-hover rounded-lg transition-colors"
         >
-          <Icon name="plus" className="w-5 h-5 text-ui-muted" />
-          <span className="text-ui-primary">Add Backdated Punch</span>
+          <Icon name="plus" className="w-5 h-5 text-modal-muted" />
+          <span>Add Backdated Punch</span>
         </button>
         <button
           onClick={() => handleOption(onEdit)}
-          className="w-full flex items-center gap-3 p-3 text-left hover:bg-ui-raised rounded-lg transition-colors"
+          className="justify-start w-full gap-3 p-3 text-modal-text hover:bg-modal-hover rounded-lg transition-colors"
         >
-          <Icon name="edit" className="w-5 h-5 text-ui-muted" />
-          <span className="text-ui-primary">Edit Habit</span>
+          <Icon name="edit" className="w-5 h-5 text-modal-muted" />
+          <span>Edit Habit</span>
         </button>
         <button
           onClick={() => handleOption(onDelete)}
-          className="w-full flex items-center gap-3 p-3 text-left hover:bg-danger/20 rounded-lg transition-colors"
+          className="justify-start w-full gap-3 p-3 text-danger hover:bg-modal-hover rounded-lg transition-colors"
         >
-          <Icon name="trash" className="w-5 h-5 text-danger" />
-          <span className="text-danger">Delete Habit</span>
+          <Icon name="trash" className="w-5 h-5" />
+          <span>Delete Habit</span>
         </button>
       </div>
     </Modal>

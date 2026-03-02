@@ -41,7 +41,7 @@ const Button = ({
         ${sizeStyles[size]}
         ${variantStyles[variant]}
         rounded-lg
-        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-ui-surface
+        focus:outline-none focus:ring-2 focus:ring-offset-2
         disabled:opacity-50 disabled:cursor-not-allowed
         transition-colors
         ${className}

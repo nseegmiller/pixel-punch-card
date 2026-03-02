@@ -106,13 +106,10 @@ const PunchCard = ({ cardId, punches, habitId: _habitId, habitName }: PunchCardP
             }}
           >
             <span
-              className="truncate w-full text-center leading-none"
+              className="truncate w-full text-center text-ui-primary"
               style={{
-                fontFamily: 'FSPixelSans, monospace',
                 // 58px is the user-confirmed good size at scale=4; scale proportionally
-                fontSize:   Math.round(14.5 * scale) + 'px',
-                color:      '#f8e6d0',
-                lineHeight: 1,
+                fontSize: Math.round(14.5 * scale) + 'px',
               }}
             >
               {habitName}
