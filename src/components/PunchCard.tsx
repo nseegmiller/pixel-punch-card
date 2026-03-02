@@ -19,9 +19,9 @@ interface PunchCardProps {
 const CARD_W = 128;
 const CARD_H = 64;
 
-// Circle centers in native image pixels (derived from pixel analysis)
-const CIRCLE_X = [15.5, 39.5, 63.5, 87.5, 111.5]; // 5 columns
-const CIRCLE_Y = [30.5, 48.5];                       // 2 rows
+// Circle centers in native image pixels (empirically verified)
+const CIRCLE_X = [16.0, 40.0, 64.0, 88.0, 112.0]; // 5 columns
+const CIRCLE_Y = [30.0, 48.0];                      // 2 rows
 
 // Punch image native size
 const PUNCH_SIZE = 14; // punch.png is 14×14
